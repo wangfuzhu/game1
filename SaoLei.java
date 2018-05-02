@@ -26,13 +26,16 @@ public class SaoLei implements ActionListener {
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        reset.setBackground(Color.lightGray);
-        reset.addActionListener(this);
-        frame.add(reset, BorderLayout.NORTH);
+        addReset();
         addButtons();
         addLei();
         calNeibollei();
         frame.setVisible(true);
+    }
+    void addReset(){
+        reset.setBackground(Color.lightGray);
+        reset.addActionListener(this);
+        frame.add(reset, BorderLayout.NORTH);
     }
     void addButtons(){
         frame.add(container,BorderLayout.CENTER);
@@ -42,6 +45,7 @@ public class SaoLei implements ActionListener {
                 JButton button = new JButton();
                 //shijian
                 button.addActionListener(this);
+                button.setBackground(Color.white);
                 button.setMargin(new Insets(0,0,0,0));
                 buttons[i][j] = button;
                 container.add(button);
@@ -87,6 +91,7 @@ public class SaoLei implements ActionListener {
         if(buttons[i][j].isEnabled() == false) return;
         //yijingbeidakai zhijiefanhui
         buttons[i][j].setEnabled(false);
+        buttons[i][j].setBackground(Color.lightGray);
         if(counts[i][j]==0){
             if (i > 0 && j> 0 && counts[i-1][j-1] != lei) openCell(i-1,j-1);
             if (i > 0 && counts[i-1][j] != lei)openCell(i-1,j);
@@ -98,6 +103,15 @@ public class SaoLei implements ActionListener {
             if (i < 19 && j < 19 &&counts[i+1][j+1] != lei) openCell(i+1,j+1);
         }else {
             buttons[i][j].setText(counts[i][j]+"");
+            if (counts[i][j] == 3){
+                buttons[i][j].setBackground(Color.blue);
+            }
+            if (counts[i][j] == 2){
+                buttons[i][j].setBackground(Color.green);
+            }
+            if (counts[i][j] == 1){
+                buttons[i][j].setBackground(Color.yellow);
+            }
         }
     }
     void checkWin(){
@@ -116,11 +130,10 @@ public class SaoLei implements ActionListener {
             for (int j=0;j<col;j++) {
                 int count = counts[i][j];
                 if (count == lei) {
-                    buttons[i][j].setBackground(Color.RED);
                     buttons[i][j].setText("X");
+                    buttons[i][j].setBackground(Color.RED);
                     buttons[i][j].setEnabled(false);
                 } else {
-
                     buttons[i][j].setText(count + "");
                     buttons[i][j].setEnabled(false);
                 }
@@ -136,8 +149,8 @@ public class SaoLei implements ActionListener {
                 for (int j = 0; j < col; j++) {
                     buttons[i][j].setText("");
                     buttons[i][j].setEnabled(true);
+                    buttons[i][j].setBackground(Color.white);
                     counts[i][j] = 0;
-                    reset.setBackground(Color.lightGray);
                 }
             }
             addLei();
